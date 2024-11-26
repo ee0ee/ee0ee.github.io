@@ -10,4 +10,4 @@ def is_it_raining_in_seattle():
         rainCheck = "<h1>Yes</h1>"
     else:
         rainCheck = "<h1>No</h1>"
-    return render_template("index.html")
+    return render_template("index.html", rainCheck = rainCheck)

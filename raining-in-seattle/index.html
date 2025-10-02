@@ -1,13 +1,26 @@
+<!-- Calls the UW LED Lab "raining in Seattle" API -->
+<!-- https://depts.washington.edu/ledlab/teaching/is-it-raining-in-seattle/ -->
+<!-- Shows if it is currently raining in Seattle -->
 <!DOCTYPE html>
 <html>
     <body>
         Is it raining in Seattle?
         <p id="weather"></p>
         <script>
-            document.getElementById("weather").innerHTML = myFunction("No");
-            function myFunction(name) {
-                return name;
-            } 
+            const URL = "https://depts.washington.edu/ledlab/teaching/is-it-raining-in-seattle/"
+            function getWeather(input) {
+                fetch(input)
+                    .then(response => {
+                        if (response.ok) {
+                            return response.json();
+                        } else {
+                            throw new Error("Network response error");
+                        }
+                    })
+                    .then(data => console.log(data))
+                    .catch(error => console.error("Error with fetch:", error));
+            }
+            document.getElementById("weather").innerHTML = getWeather(URL);
         </script>
     </body>
 </html>

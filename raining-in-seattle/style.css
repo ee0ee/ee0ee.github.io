@@ -1,12 +1,16 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap");
 
 body {
-  line-height: 1.5;
-  -webkit-font-smoothing: antialiased;
-  padding: 2em;
-  margin: auto;
+    line-height: 1.5;
+    padding: 2em;
 }
 
 h1 {
-  font-weight: 800;
+    font-weight: 800;
+}
+
+@media screen and (max-width: 768px) {
+    h1 {
+        font-size: 25vw;
+    }
 }

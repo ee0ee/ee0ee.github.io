@@ -18,6 +18,7 @@
                             return response.json();
                         } else {
                             throw new Error("Network response error");
+                            return "Error when getting weather"
                         }
                     })
                     .then(data => console.log(data))

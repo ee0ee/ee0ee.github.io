@@ -7,7 +7,9 @@
         <title>Is it raining in Seattle?</title>
     </head>
     <body>
-        Is it raining in Seattle?
+        <h1>
+            Is it raining in Seattle?
+        </h1>
         <p id="weather"></p>
         <script>
             const URL = "https://depts.washington.edu/ledlab/teaching/is-it-raining-in-seattle/"
@@ -33,7 +35,7 @@
                         document.getElementById("weather").innerHTML = "Could not retrieve data!";
                     })
             }
-            
+
             getWeather(URL);
         </script>
     </body>

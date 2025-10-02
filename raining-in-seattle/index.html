@@ -1,10 +1,11 @@
 <!-- Calls the UW LED Lab "raining in Seattle" API -->
 <!-- https://depts.washington.edu/ledlab/teaching/is-it-raining-in-seattle/ -->
-<!-- Shows if it is currently raining in Seattle -->
+<!-- Shows if it is currently raining in Seattle (yes or no) -->
 <!DOCTYPE html>
 <html>
     <head>
         <title>Is it raining in Seattle?</title>
+        <link href="style.css" rel="stylesheet" />
     </head>
     <body>
         <h1>
@@ -14,6 +15,8 @@
         <script>
             const URL = "https://depts.washington.edu/ledlab/teaching/is-it-raining-in-seattle/"
             
+            // Returns the response from the called input, updates the linked section based on
+            // the current weather in Seattle
             function getWeather(input) {
                 fetch(input)
                     .then(response => {
@@ -35,7 +38,6 @@
                         document.getElementById("weather").innerHTML = "Could not retrieve data!";
                     })
             }
-
             getWeather(URL);
         </script>
     </body>

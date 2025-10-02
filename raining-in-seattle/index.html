@@ -11,20 +11,30 @@
         <p id="weather"></p>
         <script>
             const URL = "https://depts.washington.edu/ledlab/teaching/is-it-raining-in-seattle/"
+            
             function getWeather(input) {
                 fetch(input)
                     .then(response => {
-                        if (response.ok) {
-                            return response.json();
+                        if (!response.ok) {
+                            throw new Error("Error with response!");
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        console.log(data);
+                        if (data) {
+                            document.getElementById("weather").innerHTML = "Yes";
                         } else {
-                            throw new Error("Network response error");
-                            return "Error when getting weather"
+                            document.getElementById("weather").innerHTML = "No";
                         }
                     })
-                    .then(data => console.log(data))
-                    .catch(error => console.error("Error with fetch:", error));
+                    .catch(error => {
+                        console.error("Error with fetch:", error);
+                        document.getElementById("weather").innerHTML = "Could not retrieve data!";
+                    })
             }
-            document.getElementById("weather").innerHTML = getWeather(URL);
+            
+            getWeather(URL);
         </script>
     </body>
 </html>

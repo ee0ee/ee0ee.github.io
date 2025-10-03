@@ -12,15 +12,47 @@
     <h1>Example Student's Assignment 1!</h1>
     <div class="header">
       <img src="red-panda.jpg" />
-      <p>
-        Here is all the documentation for assignment 1! <br>
-        1. Graph:<br>
-        2. Independently, with this setup I could blink <br>
-        3. (Not required) Technically, if only one LED were on at a time the limitation would
-        be with the number of available pins.
-      </p>
       <!-- <p>1. Graph:</p>
       <p>2. Independently, with this setup I could:</p> -->
     </div>
+          <p>
+        Here is all the documentation for assignment 1! <br><br>
+
+
+        Initial calculations: The LEDs that I used for this assignment need a current of 20 mA
+        (milliamps) and require 1.8 V, so using Ohm's Law (V = I * R) for each individual LED:<br>
+        5V - 3.2 V / 20 mA = R = 160 Ω<br><br>
+
+        The actual code can be found below:<br><br>
+
+        // Turns on and off three LEDs for 1 second each, in succession<br>
+        // Partly based on code from Arduino's example Blink.ino<br>
+
+        // Sets up the pins to be used for each color<br>
+        int redPin = 2; // Red LED to pin #2<br>
+        int yelPin = 3; // Yellow LED to pin #3<br>
+        int grnPin = 4; // Green LED to pin #4<br>
+
+        // Setup function to configure the correct pins (2-4) for the LEDs<br>
+        void setup() { // Setup function<br>
+          pinMode(redPin, OUTPUT); // Red LED pin set to output<br>
+          pinMode(yelPin, OUTPUT); // Yellow LED pin set to output<br>
+          pinMode(grnPin, OUTPUT); // Green LED pin set to output<br>
+        }<br>
+
+        // Continuously lights up the red, yellow, and green LEDs in turn<br>
+        void loop() { // Contiuously loops<br>
+          for (int j = 2; j <= redPin + 2; j++) { // Starts at the red pin and cycles through all three<br>
+            digitalWrite(j, HIGH), // Lights up LED (HIGH)<br>
+            delay(1000); // LED stays illuminated for 1s<br>
+            digitalWrite(j, LOW); // Turns off LED (LOW)<br>
+            delay(1000); // Waits 1s for next LED to light<br>
+          }<br>
+        }<br><br>
+
+        1. Graph:<br>
+        2. Because <br>
+        4. 
+      </p>
   </body>
 </html>

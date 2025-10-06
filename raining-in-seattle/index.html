@@ -22,7 +22,7 @@
                 fetch(input)
                     .then(response => {
                         if (!response.ok) {
-                            throw new Error("Error with response!");
+                            throw new Error("Error when getting response!");
                         }
                         return response.json();
                     })
@@ -36,7 +36,7 @@
                     })
                     .catch(error => {
                         console.error("Error with fetch:", error);
-                        document.getElementById("weather").innerHTML = "Could not retrieve data!";
+                        document.getElementById("weather").innerHTML = "Couldn't retrieve data!";
                     })
             }
             getWeather(URL);

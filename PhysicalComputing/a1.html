@@ -9,7 +9,7 @@
     <link href="style.css" rel="stylesheet" type="text/css" />
   </head>
   <body>
-    <h1>Assignment 1: Blink</h1>
+    <h1>Assignment 1: Blink!</h1>
     <div class="header">
       <img src="blink.gif" />
       Left: The LEDs in my circuit blinking!<br><br>
@@ -19,7 +19,7 @@
 
         Initial calculations: The LEDs that I used for this assignment need a current of 20 mA
         (milliamps) and require 1.8 V, so using Ohm's Law (V = I * R) for each individual LED:<br>
-        5V - 3.2 V / 20 mA = R = 160 Ω<br><br>
+        5V - 1.8V / 20 mA = R = 160 Ω<br><br>
 
         <img src="blinkdiagram.jpg" width="350">
         Above: This schematic is a representation of the actual circuit, which can be seen below.
@@ -32,33 +32,33 @@
 
         This is the code which I used:<br>
 
-        <code>
-          // Turns on and off three LEDs for 1 second each, in succession<br>
-          // Partly based on code from Arduino's example Blink.ino<br>
+        <pre><code>
+          // Turns on and off three LEDs for 1 second each, in succession
+          // Partly based on code from Arduino's example Blink.ino
 
-          // Sets up the pins to be used for each color<br>
-          int redPin = 2; // Red LED to pin #2<br>
-          int yelPin = 3; // Yellow LED to pin #3<br>
-          int grnPin = 4; // Green LED to pin #4<br>
+          // Sets up the pins to be used for each color
+          int redPin = 2; // Red LED to pin #2
+          int yelPin = 3; // Yellow LED to pin #3
+          int grnPin = 4; // Green LED to pin #4
 
-          // Setup function to configure the correct pins (2-4) for the LEDs<br>
-          void setup() { // Setup function<br>
-            pinMode(redPin, OUTPUT); // Red LED pin set to output<br>
-            pinMode(yelPin, OUTPUT); // Yellow LED pin set to output<br>
-            pinMode(grnPin, OUTPUT); // Green LED pin set to output<br>
-          }<br>
+          // Setup function to configure the correct pins (2-4) for the LEDs
+          void setup() { // Setup function
+            pinMode(redPin, OUTPUT); // Red LED pin set to output
+            pinMode(yelPin, OUTPUT); // Yellow LED pin set to output
+            pinMode(grnPin, OUTPUT); // Green LED pin set to output
+          }
 
-          // Continuously lights up the red, yellow, and green LEDs in turn<br>
-          void loop() { // Contiuously loops<br>
+          // Continuously lights up the red, yellow, and green LEDs in turn
+          void loop() { // Contiuously loops
             for (int j = 2; j <= redPin + 2; j++) { // Starts at the red pin and cycles 
-                through all three<br>
-              digitalWrite(j, HIGH), // Lights up LED (HIGH)<br>
-              delay(1000); // LED stays illuminated for 1s<br>
-              digitalWrite(j, LOW); // Turns off LED (LOW)<br>
-              delay(1000); // Waits 1s for next LED to light<br>
-            }<br>
-          }<br><br>
-        </code>
+                through all three
+              digitalWrite(j, HIGH), // Lights up LED (HIGH)
+              delay(1000); // LED stays illuminated for 1s
+              digitalWrite(j, LOW); // Turns off LED (LOW)
+              delay(1000); // Waits 1s for next LED to light
+            }
+          }
+        </code></pre>
 
         1. Graph:<br>
         <img src="blinkgraph.jpg" width="350">

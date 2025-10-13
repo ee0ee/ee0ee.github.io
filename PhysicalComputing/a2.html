@@ -3,24 +3,33 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, maximum-scale=1.0" />
-
     <title>A2: Fade! - Sam Chen</title>
-
     <link href="style.css" rel="stylesheet" type="text/css"/>
   </head>
   <body>
     <h1>Assignment 2: Fade!</h1>
     <div class="header">
-      <img src="A2/fade.gif"/ alt="An LED blinking in a pattern">
+      <img src="A2/fade.gif" width="350" alt="An LED blinking in a pattern"/>
       <p>
         Left: A short GIF of the LED lighting up and "fading" in brightness before deactivating.
+        Note that the camera doesn't capture the fade effect entirely.
       </p>
     </div>
+    <br>
     <p>
       <h2>
-        <br>Images:
+        Images:
       </h2>
+      <image src="A2/circuit.jpg" width="350" alt="Picture of a circuit"/>
+      My circuit setup, with a 4-pin RGB LED set up to detect a signal from a button.
+      <br><br>
+      <image src="A2/diagram.jpg" width="350" alt="Circuit diagram"/>
+      This diagram is a representation of the above circuit, showing the button providing a
+      signal to Pin 2 and the RGB LED. Note that the button resistor value of 10K is to limit
+      the maximum current for the pin to 100 mA, while the LED resistor values are calculated
+      to best limit the current to a maximum of 20 mA.
     </p>
+    <br>
     <p>
       <h2>
         Code:
@@ -90,14 +99,24 @@
       <h2>
         Responses:
       </h2>
+    </p>
+    <p>
+    </p>
       Calculations:<br>
       The red and green LEDs both require 1.8V and a current of 20 mA, so as with the last
       assignment I used this formula: 5V - 1.8V / 20 mA = R = 160 Ω<br>
       However, the blue LED requires 3.2V, so the formula used would be:
       5V - 3.2V / 20 mA = R = 90 Ω
-      <br><br>
-      1. Graph: 
-      <br><br>
+    </p>
+    <br>
+    <p>
+      1. Graph:
+      <image src="A2/graph.jpg" width="350" alt="Chart of different analogWrite values"/>
+      An analogWrite of 64 corresponds to 25%, 128 to 50%, and 255 to 100%. I chose to use
+      percentages since the LED specifications are unknown.
+    </p>
+    <br>
+    <p>
       2. Each of the three LEDs making up a color in the RGB LED draws 20 mA, so by following
       the code it's possible to approximate how long it would run with a 1200 mAh battery.<br>
       Firstly, turning on the LEDs one by one means one LED runs for 3s, one runs for 2s, and one
@@ -111,5 +130,17 @@
       Therefore, the 1200 mAh battery (72,000 mA minutes or 4,320,000 mA seconds) would power
       this circuit for about 43 hours: 4,320,000/(179/6.4) = 154,458s = 42.9 hours.
     </p>
+    <br>
+    <p>
+      3. I used my multimeter 
+    </p>
+    <br>
+    <p>
+      4. I did not use any AI tools during this assignment.
+    </p>
+    <br>
+    <a href="index.html">
+      Click to go back to homepage
+    </a>
   </body>
 </html>

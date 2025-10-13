@@ -4,15 +4,112 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, maximum-scale=1.0" />
 
-    <title>Example Student's HCDE 439 Physical Computing Page!</title>
+    <title>A2: Fade! - Sam Chen</title>
 
     <link href="style.css" rel="stylesheet" type="text/css" />
   </head>
   <body>
-    <h1>Example Student's Assignment 2!</h1>
+    <h1>Assignment 2: Fade!</h1>
     <div class="header">
-      <img src="red-panda.jpg" />
-      <p>Here is all the documentation for assignment 2!</p>
+      <img src="red-panda.jpg"/ alt="">
+      <p>
+        Left: A short GIF of the LED lighting up and "fading" in brightness before deactivating.
+      </p>
     </div>
+    <p>
+      <h2>
+        <br>Images:
+      </h2>
+    </p>
+    <p>
+      <h2>
+        Code:
+      </h2>
+      <pre><code>
+        // Gradually lights up and turns off a 4-pin RGB LED with the push of a button
+        // Partly based on the Arduino built-in "Button" example
+
+        // Constants used to identify specific pins
+        const int buttonPin = 2; // number of the pushbutton pin
+        const int redPin = 3; // number of the red LED pin - PWM pin
+        const int grnPin = 4; // number of the green LED pin
+        const int bluPin = 5; // number of the blue LED pin - PWM pin
+
+        // Changing variables
+        int buttonState = 0;  // variable for reading the pushbutton status
+
+        void setup() {
+          pinMode(redPin, OUTPUT); // Initialize the red LED output
+          pinMode(grnPin, OUTPUT); // Initialize the green LED output
+          pinMode(bluPin, OUTPUT); // Initialize the blue LED output
+          pinMode(buttonPin, INPUT); // Initialize the button pin as an input
+        }
+
+        void loop() {
+          buttonState = digitalRead(buttonPin); // Read the button value
+
+          // Turns on all LEDs if the button is pushed (3s)
+          if (buttonState == HIGH) { // If the button is pushed (state is HIGH)
+            for(int i = redPin; i <= bluPin; i++) { // Cycle through all LEDs
+              digitalWrite(i, HIGH); // Turn on (state HIGH) the current LED
+              delay(1000); // Wait 1s before turning on the next LED
+            }
+
+            // Uses a duty cycle to reduce the brightess (1.7s)
+            for(int i = 100; i > 0; i--) { // Duration of lower brightness
+              digitalWrite(redPin, LOW); // Turns off the red LED
+              digitalWrite(grnPin, LOW); // Turns off the green LED
+              digitalWrite(bluPin, LOW); // Turns off the blue LED
+              delay(15); // 15ms off
+              digitalWrite(redPin, HIGH); // Turns on the red LED
+              digitalWrite(grnPin, HIGH); // Turns on the green LED
+              digitalWrite(bluPin, HIGH); // Turns on the blue LED
+              delay(2); // 2ms on
+            }
+
+            // Uses analogWrite on the PWM pins to reduce brightness (0-256)
+            analogWrite(redPin, 50); // Red LED duty cycle
+            analogWrite(bluPin, 50); // Blue LED duty cycle
+            delay(1700); // Wait 1.7s
+
+            // Turn off the LEDs
+            digitalWrite(redPin, LOW); // Turns off the red LED
+            digitalWrite(grnPin, LOW); // Turns off the green LED
+            digitalWrite(bluPin, LOW); // Turns off the blue LED
+          } else { // If the button state is LOW
+            // Turn off the LEDs
+            digitalWrite(redPin, LOW); // Turns off the red LED
+            digitalWrite(grnPin, LOW); // Turns off the green LED
+            digitalWrite(bluPin, LOW); // Turns off the blue LED
+          }
+        }
+      </code></pre>
+    </p>
+    <br>
+    <p>
+      <h2>
+        Responses:
+      </h2>
+      Calculations:<br>
+      The red and green LEDs both require 1.8V and a current of 20 mA, so as with the last
+      assignment I used this formula: 5V - 1.8V / 20 mA = R = 160 Ω<br>
+      However, the blue LED requires 3.2V, so the formula used would be:
+      5V - 3.2V / 20 mA = R = 90 Ω
+      <br><br>
+      1. Graph: 
+      <br><br>
+      2. Each of the three LEDs making up a color in the RGB LED draws 20 mA, so by following
+      the code it's possible to approximate how long it would run with a 1200 mAh battery.<br>
+      Firstly, turning on the LEDs one by one means one LED runs for 3s, one runs for 2s, and one
+      runs for 1s, for a total of 120 mA over 3 seconds.
+      Next, the duty cycle runs 100 times with the LEDs all on for 2ms each time, leading to 12
+      mA in this period for a total of 1.7 seconds.
+      Finally, the analogWrite function uses a duty cycle of 50/255 to reduce the PWM pins'
+      brightness, so for an additional 1.7 seconds the red and blue LEDs' current is reduced to
+      about 19.6%. In this period the LEDs draw about 34 + 2(6.7) = 47 mA.
+      In total, the LEDs draw about 120 + 12 + 47 = 179 mA over a period of 6.4 seconds.
+      Therefore, the 1200 mAh battery (72,000 mA minutes or 4,320,000 mA seconds) would power
+      this circuit for about 43 hours: 4,320,000/(179/6.4) = 154,458s = 42.9 hours.
+    </p>
   </body>
 </html>

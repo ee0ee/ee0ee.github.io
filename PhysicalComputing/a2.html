@@ -25,7 +25,7 @@
       <br><br>
       <image src="A2/diagram.jpg" width="350" alt="Circuit diagram"/>
       This diagram is a representation of the above circuit, showing the button providing a
-      signal to Pin 2 and the RGB LED. Note that the button resistor value of 10K is to limit
+      signal to Pin 2 and the RGB LED. Note that the button resistor value of 10K Ω is to limit
       the maximum current for the pin to 100 mA, while the LED resistor values are calculated
       to best limit the current to a maximum of 20 mA.
     </p>
@@ -64,7 +64,7 @@
               delay(1000); // Wait 1s before turning on the next LED
             }
 
-            // Uses a duty cycle to reduce the brightess (1.7s)
+            // Simulates a duty cycle to reduce the brightess (1.7s)
             for(int i = 100; i > 0; i--) { // Duration of lower brightness
               digitalWrite(redPin, LOW); // Turns off the red LED
               digitalWrite(grnPin, LOW); // Turns off the green LED
@@ -106,7 +106,9 @@
       The red and green LEDs both require 1.8V and a current of 20 mA, so as with the last
       assignment I used this formula: 5V - 1.8V / 20 mA = R = 160 Ω<br>
       However, the blue LED requires 3.2V, so the formula used would be:
-      5V - 3.2V / 20 mA = R = 90 Ω
+      5V - 3.2V / 20 mA = R = 90 Ω<br>
+      As mentioned above, a resistance of 10K Ω is used to limit the button pin current to about
+      100 mA, which is a safe value.
     </p>
     <br>
     <p>

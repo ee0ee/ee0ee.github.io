@@ -14,10 +14,9 @@
         </h1>
         <p id="weather"></p>
         <script>
-            const URL = "https://depts.washington.edu/ledlab/teaching/is-it-raining-in-seattle/"
-            
             // Returns the response from the called input, updates the linked section based on
             // the current weather in Seattle
+            const URL = "https://depts.washington.edu/ledlab/teaching/is-it-raining-in-seattle/"
             function getWeather(input) {
                 fetch(input)
                     .then(response => {
@@ -29,14 +28,14 @@
                     .then(data => {
                         console.log(data);
                         if (data) {
-                            document.getElementById("weather").innerHTML = "Yes";
+                            document.getElementById("weather").textContent = "Yes";
                         } else {
-                            document.getElementById("weather").innerHTML = "No";
+                            document.getElementById("weather").textContent = "No";
                         }
                     })
                     .catch(error => {
                         console.error("Error with fetch:", error);
-                        document.getElementById("weather").innerHTML = "Couldn't retrieve data!";
+                        document.getElementById("weather").textContent = "Couldn't retrieve data!";
                     })
             }
             getWeather(URL);

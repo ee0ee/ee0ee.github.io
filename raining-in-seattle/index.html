@@ -29,8 +29,10 @@
                         console.log(data);
                         if (data) {
                             document.getElementById("weather").textContent = "Yes";
+                            document.getElementById("weather").style.color = "green";
                         } else {
                             document.getElementById("weather").textContent = "No";
+                            document.getElementById("weather").style.color = "red";
                         }
                     })
                     .catch(error => {

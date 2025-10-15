@@ -4,9 +4,9 @@ body {
     line-height: 1.5;
     padding: 2em;
     font-size: 4vmin;
+    font-weight: 800;
 }
 
 h1 {
-    font-weight: 800;
     font-size: 5vmin;
 }

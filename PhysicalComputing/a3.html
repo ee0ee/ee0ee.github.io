@@ -28,7 +28,65 @@
         Code:
       </h2>
       <pre><code>
-        Code goes here (placeholder)
+        // Indicates current brightness, as detected by a photoresistor, on a scaleof 0-3 represented
+        // by three LEDs. Also prints values and LED status to the monitor.
+        // Uses code from the Arduino "Analog Input" and "Calibration" built-in examples.
+
+        const int analogInPin = A0; // Selects the analog in pin used
+        const int lowLed = 4; // Identifies the low signal LED
+        const int medLed = 5; // Identifies the medium signal LED
+        const int hiLed = 6; // Identifies the high signal LED
+        int sensorVal = 0;  // Initial sensor value
+        int minVal = 1023; // Initial minimum sensor value
+        int maxVal = 0; // Initial max sensor value
+        int mapVal = 0; // Initial mapped sensor value
+
+        void setup() {
+          pinMode(lowLed, OUTPUT); // Sets the low signal LED pin to output
+          pinMode(medLed, OUTPUT); // Sets up the medium signal LED pin to output
+          pinMode(hiLed, OUTPUT); // Sets up the high signal LED pin to output
+          Serial.begin(9600); // Sets up serial for output text
+          while (millis() < 5000) { // 5-second calibration period
+            sensorVal = analogRead(analogInPin); // Sensor value reads from pin A0
+            if (sensorVal > maxVal) { // Identifies the highest value
+              maxVal = sensorVal; // Sets the max value to the new highest
+            }
+            if (sensorVal < minVal) { // Identifies the lowest value
+              minVal = sensorVal; // Sets the min value to the new lowest
+            }
+          }
+        }
+
+        void loop() {
+          sensorVal = analogRead(analogInPin); // Sensor value reads from pin A0
+          sensorVal = constrain(sensorVal, minVal, maxVal); // Constrains values based on calibration
+          mapVal = map(sensorVal, minVal, maxVal, 0, 255); // Maps values to 8-bit (256 units)
+          Serial.print("Sensor value: "); // Print sensor value text
+          Serial.print(sensorVal); // Print the value
+          Serial.print("\t Map value: "); // Print mapped value text
+          Serial.print(mapVal); // Print the value
+          if (mapVal <= 63) { // Bottom 1/4 of values
+            digitalWrite(lowLed, LOW); // Low LED off
+            digitalWrite(medLed, LOW); // Medium LED off
+            digitalWrite(hiLed, LOW); // High LED off
+            Serial.println("\t Lighting no LEDs!"); // Indicate no LEDs lit
+          } else if (mapVal > 63 && mapVal <= 127) { // Lower middle quadrant of values
+            digitalWrite(lowLed, HIGH); // Low LED on
+            digitalWrite(medLed, LOW); // Medium LED off
+            digitalWrite(hiLed, LOW); // High LED off
+            Serial.println("\t Lighting 1 LED!"); // Indicate one LEDs lit
+          } else if (mapVal > 127 && mapVal <= 191) { // Upper middle quadrant of values
+            digitalWrite(lowLed, HIGH); // Low LED on
+            digitalWrite(medLed, HIGH); // Medium LED on
+            digitalWrite(hiLed, LOW); // High LED off
+            Serial.println("\t Lighting 2 LEDs!"); // Indicate two LEDs lit
+          } else { // Upper quadrant of values
+            digitalWrite(lowLed, HIGH); // Low LED on
+            digitalWrite(medLed, HIGH); // Medium LED on
+            digitalWrite(hiLed, HIGH); // High LED on
+            Serial.println("\t Lighting 3 LEDs!"); // Indicate all LEDs lit
+          }
+        }
       </code></pre>
     </p>
     <br>

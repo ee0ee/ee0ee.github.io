@@ -3,13 +3,11 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, maximum-scale=1.0" />
-
-    <title>A3: ____ - Sam Chen</title>
-
+    <title>A3: Input Output! - Sam Chen</title>
     <link href="style.css" rel="stylesheet" type="text/css" />
   </head>
   <body>
-    <h1>Assignment 3: ____</h1>
+    <h1>Assignment 3: Input Output!</h1>
     <div class="header">
       <img src="red-panda.jpg" width="350" alt="LEDs turning off and lighting"/>
       <p>
@@ -89,6 +87,34 @@
         }
       </code></pre>
     </p>
+    <p>
+      <h2>
+        Responses:
+      </h2>
+      1. The variable resistor could be either R1 or R2.<br>
+      R1 is variable:<br>
+      V<sub>out1</sub> = <b>150Ω</b>/(<b>150Ω</b> + 100Ω) * 5V = 3V<br>
+      V<sub>out2</sub> = <b>100Ω</b>/(<b>100Ω</b> + 100Ω) * 5V = 2.5V<br>
+      <br>
+      R2 is variable:<br>
+      V<sub>out1</sub> = 150Ω/(150Ω + <b>100Ω</b>) * 5V = 3V<br>
+      V<sub>out2</sub> = 150Ω/(150Ω + <b>150Ω</b>) * 5V = 2.5V<br>
+      <br>
+      As shown, it is possible to get the same results even if the variable resistor's position
+      is switched. However, this is not an exact swap as the variable resistor's resistance must
+      be decreased in example 1 and increased in example 2 to get the same results.
+    </p>
     <br>
+    <p>
+      2. Graph:
+    </p>
+    <br>
+    <p>
+      3. Changing the PWM and analog-to-digital converter to 10- and 16-bit, respectively, would
+      mean that I would have to change the mapped value from 0-255 to 0-1023 (2<sup>10</sup>).
+      While the code I used is able to calibrate to the environmental light levels, I would also
+      need to change the starting minimum value to 65535 (2<sup>16</sup>) to account for the
+      higher possible max 16-bit values.
+    </p>
   </body>
 </html>

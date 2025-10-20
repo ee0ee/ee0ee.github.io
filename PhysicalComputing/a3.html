@@ -23,6 +23,18 @@
       <h2>
         Images:
       </h2>
+      <img src="A3/circuit.jpg" width="350" alt="Top-down picture of a circuit">
+      Picture of the circuit I used for this assignment. The photoresistor is connected to an
+      analog pin, which turns the input voltage to a 10-bit value. This value is used to turn on
+      a corresponding number of LEDs (0-3), with a high light level turning on all of the LEDS
+      and a lower light level turning on some or none.<br>
+      <br>
+      <img src="A3/diagram.jpg" width="350" alt="Diagram of the circuit for this assignment">
+      This diagram represents the above circuit, showing both the photoresistor and LEDs. The
+      resistor values for the LEDs were chosen based on their maximum 20 mA current requirement,
+      while the fixed resistor in the voltage divider was selected based on the maximum 75K Ω
+      value of this photoresistor. The 100K Ω resistor ensures that a safe current level goes
+      to the Arduino.<br>
     </p>
     <br>
     <p>
@@ -30,7 +42,7 @@
         Code:
       </h2>
       <pre><code>
-        // Indicates current brightness, as detected by a photoresistor, on a scaleof 0-3 represented
+        // Indicates current brightness, as detected by a photoresistor, on a scale of 0-3 represented
         // by three LEDs. Also prints values and LED status to the monitor.
         // Uses code from the Arduino "Analog Input" and "Calibration" built-in examples.
 
@@ -111,6 +123,10 @@
     <br>
     <p>
       2. Graph:
+      <img src="A3/graph.jpg" width="350" alt="Graph of voltage over time for this circuit">
+      This graph is idealized with a perfectly even change in resistance and a full 5V change,
+      but otherwise represents the voltage being measured at the voltage divider in the example
+      gif. When I covered up the photoresistor, the resistance increased and voltage decreased.
     </p>
     <br>
     <p>

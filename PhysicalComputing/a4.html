@@ -24,8 +24,11 @@
       Picture of my circuit. The capacitive sensor is read by the Arduino, which uses its
       output to write a position to the servo.<br>
       <br>
-      <img src="A3/DIAGRAM.PNG" width="350" alt="Diagram of the circuit for this assignment">
-      Placeholder circuit diagram<br>
+      <img src="A4/diagram.jpg" width="350" alt="Diagram of the circuit for this assignment">
+      This circuit diagram shows both the capacitive sensor and the servo. The 1M Ω resistance
+      for for the sensor was chosen based on the library creator's recommendation of 50K-50M Ω
+      for a resistor. I couldn't find a standardized symbol for a servo so I used a simple box
+      with the signal, power, and ground.<br>
     </p>
     <br>
     <p>
@@ -44,7 +47,7 @@
 
         Servo myservo; // Servo object is used to control a specific servo
         int pos = 0; // Variable for storing servo position
-        CapacitiveSensor sensor = CapacitiveSensor(4,2); // Capacitive sensor between pins 4 and 2
+        CapacitiveSensor sensor = CapacitiveSensor(4, 2); // Capacitive sensor between pins 4 and 2
         int minVal = 1023; // Initial minimum sensor value
         int maxVal = 0; // Initial max sensor value
         int dataRange = 0; // Initial data range

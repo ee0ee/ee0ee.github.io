@@ -9,9 +9,10 @@
   <body>
     <h1>Assignment 4: Libraries!</h1>
     <div class="header">
-      <img src="A3/LightLevels.gif" width="350" alt="LEDs turning off and lighting"/>
+      <img src="A4/demo.gif" width="350" alt="Moving servo"/>
       <p>
-        Left: A short gif of the servo changing position as I touch the capacitive sensor.
+        Left: A servo reacting as I touch the resistor which is serving as a capacitive
+        sensor. It points further to the left when I touch the sensor.
       </p>
     </div>
     <br>
@@ -19,19 +20,12 @@
       <h2>
         Images:
       </h2>
-      <img src="A3/circuit.jpg" width="350" alt="Top-down picture of a circuit">
-      Picture of the circuit I used for this assignment. The photoresistor is connected to an
-      analog pin, which turns the input voltage to a 10-bit value. This value is used to turn on
-      a corresponding number of LEDs (0-3), with a high light level turning on all of the LEDS
-      and a lower light level turning on some or none.<br>
+      <img src="A4/Circuit.jpg" width="350" alt="Top-down picture of a circuit">
+      Picture of my circuit. The capacitive sensor is read by the Arduino, which uses its
+      output to write a position to the servo.<br>
       <br>
       <img src="A3/DIAGRAM.PNG" width="350" alt="Diagram of the circuit for this assignment">
-      This diagram represents the above circuit, showing both the photoresistor and LEDs. The
-      resistor values for the LEDs were chosen based on their maximum 20 mA current requirement,
-      while the fixed resistor in the voltage divider was selected based on the maximum 75K Ω
-      value of this photoresistor. The 100K Ω resistor ensures that a safe current level goes
-      to the Arduino. At the divider, it's possible to read between 0 and 5 V due to the
-      value of the photoresistor.<br>
+      Placeholder circuit diagram<br>
     </p>
     <br>
     <p>
@@ -89,7 +83,10 @@
       <h2>
         Responses:
       </h2>
-      1.
+      1. Graph for this assignment:
+      <img src="A4/q1graph.jpg" width="350" alt="Graph response for Q1">
+      This graph shows a 1ms pulse wave modulation that is rotating the servo once every
+      100ms period (distances exaggerated for scale).
     </p>
     <br>
     <p>

@@ -3,11 +3,11 @@
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, maximum-scale=1.0" />
-        <title>A5: ! - Sam Chen</title>
+        <title>A5: Higher voltage and transistors! - Sam Chen</title>
         <link href="../style.css" rel="stylesheet" type="text/css" />
     </head>
     <body>
-        <h1>Assignment 5:</h1>
+        <h1>Assignment 5: Higher voltage and transistors!</h1>
         <div class="header">
             <img src="A5/demo.gif" width="350" alt="Placeholder gif for A5"/>
             <p>
@@ -24,8 +24,50 @@
         </p>
         <p>
             <h2>Code:</h2>
-            <pre><code>
-                Code placeholder
+            <pre><code> <!-- Note: indenting offset to make code block look better -->
+    // Uses an ultrasonic sensor to measure distance and changes the pitch of an active buzzer when
+    // a distance of 10 inches or less is detected.
+    // Uses some code from the built-in Ping example.
+
+    const int buzzer = 9; // Identify buzzer pin
+    const int sensorPower = 10; // Identify sensor power pin
+    const int trig = 11; // Identify sensor "trig" pin
+    const int echo = 12; // Identify sensor "echo" pin
+
+    void setup() {
+        pinMode(buzzer, OUTPUT); // Set buzzer pin to output
+        pinMode(trig, OUTPUT); // Set trig pin to output (sending signals)
+        pinMode(echo, INPUT); // Set echo pin to input (receiving signals)
+        pinMode(sensorPower, OUTPUT); // Set sensor power pin to output
+        digitalWrite(sensorPower, HIGH); // Output power to ultrasonic sensor
+    }
+
+    void loop() {
+        long duration, inches; // Set up variables for measurements
+        digitalWrite(trig, LOW); // Reset the sensor ping
+        delay(5); // Wait 5 ms
+        digitalWrite(trig, HIGH); // Trigger the sensor to send a ping
+        delay(5); // Wait 5 ms
+        digitalWrite(trig, LOW); // Deactivate the sensor
+
+        duration = pulseIn(echo, HIGH); // Read the sensor output
+        inches = microsecondsToInches(duration); // Convert duration to distance
+
+        if (inches < 10L) { // If the measured distane is less than 10 ms
+            digitalWrite(buzzer, LOW); // Change the buzzer pitch
+        }
+
+    delay(490); // Wait 490 ms
+    digitalWrite(buzzer, HIGH); // Reset the buzzer pitch
+    }
+
+    // Converts the microsecond delay between the ultrasonic sensor's ping and the return echo to
+    // a distance in inches.
+    // Parameter: long microseconds: Duration from the initial sensor ping to the return echo
+    // Returns a long value for distance in inches
+    long microsecondsToInches(long duration) {
+        return duration / 74 / 2; // Convert the duration to distance
+    }
             </code></pre>
         </p>
         <p>

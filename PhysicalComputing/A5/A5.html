@@ -89,10 +89,12 @@
         </p><br>
         <p>
             <h2>Responses:</h2>
-            1. The absolute maximum current listed is 80A when pulsed with a 1% duty cycle.
+            1. For the specific transistor, the absolute maximum current listed is 80A when
+            pulsed with a 1% duty cycle.
         </p><br>
         <p>
             2. Schematic:<br>
+            <img src="q2diagram.jpg" width="350" alt="Circuit diagram for question 2"><br>
             Parts:
             <ul>
                 <li>Arduino Uno</li>
@@ -100,6 +102,43 @@
                 <li>1N4007 diode</li>
                 <li>104pf capacitor</li>
             </ul>
+        </p><br>
+        <p>
+            3. Schematic:<br>
+            <img src="q3diagram.jpg" width="350" alt="Circuit diagram for question 3"><br>
+            The Arduino controls the L293 chip's In1 and In2 pins. Here's example code for
+            moving the motors in different directions:
+            <pre><code> <!-- Note: indenting is offset to make code block look better -->
+    // Initialize pins:
+    Assign pins for In 1/2 L/R
+
+    // Both motors stopped:
+    All pins off
+    Wait
+    
+    // Both motors forwards:
+    In1L/R on, In2L/R off
+    Wait
+
+    // Both motors backwards:
+    In1L/R off, In2L/R on
+    Wait
+
+    // Motors moving in different directions:
+    In1L on, In2L off
+    In1R off, In2R on
+    Wait
+    In1L off, In2L on
+    In1R on, In2R off
+    Wait
+
+    // Stop both motors again:
+    All pins off
+    Wait
+            </code></pre>
+        </p><br>
+        <p>
+            4. I did not use any AI tools while completing this assignment.
         </p><br>
         <a href="../index.html">
             Click to go back to homepage

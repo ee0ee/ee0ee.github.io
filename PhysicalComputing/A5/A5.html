@@ -9,22 +9,39 @@
     <body>
         <h1>Assignment 5: Higher voltage and transistors!</h1>
         <div class="header">
-            <img src="shortdemo.gif" width="350" alt="Placeholder gif for A5"/>
+            <img src="shortdemo.gif" width="350" alt="Sensor reacting to a nearby object"/>
             <p>
-                Gif caption
+                Demo of the sensor reacting to a nearby object (my hand) when it comes within
+                ten inches. Although this doesn't show the sound of the buzzer, here's a link
+                to a video of the same demo:
+                <a href="https://drive.google.com/file/d/1xQWluzjZ5-f8K14lq_69O4QTWwAlGr_X/view?usp=sharing">
+                    Sensor video demo
+                </a>
             </p>
         </div>
         <br>
         <p>
             <h2>Images:</h2>
-            <img src="circuit.jpg" width="350" alt="Placeholder circuit image">
-            Circuit caption<br><br>
+            <img src="circuit.jpg" width="350" alt="Photo of a breadboard circuit">
+            Picture of my circuit. The ultrasonic sensor measures the distance of whatever is in
+            front of it, and outputs the delay between its outgoing ping and the return echo in
+            milliseconds. Using the speed of sound, this duration can be converted into a distance
+            which is used to activate the buzzer. The buzzer pitch is controlled by a transistor,
+            separately from the constant 5V power supply.<br><br>
             <img src="diagram.jpg" width="350" alt="Hand drawn circuit diagram">
-            Diagram caption<br><br>
+            This diagram shows the three parts of my circuit: the 9V power source connected to
+            the Vin pin, the ultrasonic sensor, and the transistor-controlled buzzer. The specific
+            transistor used in this circuit has a maximum current of around 30A, which is much
+            higher than any possible current from the Arduino (measured in mA). In my circuit,
+            the transistor's role is more to control the buzzer instead of handing a significantly
+            higher load power.<br><br>
         </p>
         <p>
             <h2>Code:</h2>
-            <pre><code> <!-- Note: indenting offset to make code block look better -->
+            Note: The A5 assignment description says to use analogWrite. I realized this
+            very late and was somewhat running out of time so I'm aware that it's something
+            missing from my submission.
+            <pre><code> <!-- Note: indenting is offset to make code block look better -->
     // Uses an ultrasonic sensor to measure distance and changes the pitch of an active buzzer when
     // a distance of 10 inches or less is detected.
     // Uses some code from the built-in Ping example.
@@ -53,7 +70,7 @@
         duration = pulseIn(echo, HIGH); // Read the sensor output
         inches = microsecondsToInches(duration); // Convert duration to distance
 
-        if (inches < 10L) { // If the measured distane is less than 10 ms
+        if (inches < 10L) { // If the measured distance is less than 10 ms
             digitalWrite(buzzer, LOW); // Change the buzzer pitch
         }
 
@@ -72,7 +89,7 @@
         </p><br>
         <p>
             <h2>Responses:</h2>
-            1. The absolute maximum current listed is 80 A when pulsed with a 1% duty cycle.
+            1. The absolute maximum current listed is 80A when pulsed with a 1% duty cycle.
         </p><br>
         <p>
             2. Schematic:<br>

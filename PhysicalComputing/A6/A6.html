@@ -3,143 +3,180 @@
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, maximum-scale=1.0" />
-        <title>A5: Higher voltage and transistors! - Sam Chen</title>
+        <title>A6: Talking to the web! - Sam Chen</title>
         <link href="../style.css" rel="stylesheet" type="text/css" />
     </head>
     <body>
-        <h1>Assignment 5: Higher voltage and transistors!</h1>
+        <h1>Assignment 6: Talking to the web!</h1>
         <div class="header">
-            <img src="shortdemo.gif" width="350" alt="Sensor reacting to a nearby object"/>
+            <img src="Demo.gif" width="350" alt="Webpage and LEDs reacting to joystick motion"/>
             <p>
-                Demo of the sensor reacting to a nearby object (my hand) when it comes within
-                ten inches. Although this doesn't show the sound of the buzzer, here's a link
-                to a video of the same demo:
-                <a href="https://drive.google.com/file/d/1xQWluzjZ5-f8K14lq_69O4QTWwAlGr_X/view?usp=sharing">
-                    Sensor video demo
-                </a>
+                This gif shows how I'm able to control both the LEDs on the breadboard and the
+                webpage with the joystick.
             </p>
         </div>
         <br>
         <p>
             <h2>Images:</h2>
-            <img src="circuit.jpg" width="350" alt="Photo of a breadboard circuit">
-            Picture of my circuit. The ultrasonic sensor measures the distance of whatever is in
-            front of it, and outputs the delay between its outgoing ping and the return echo in
-            milliseconds. Using the speed of sound, this duration can be converted into a distance
-            which is used to activate the buzzer. The buzzer pitch is controlled by a transistor,
-            separately from the constant 5V power supply.<br><br>
-            <img src="diagram.jpg" width="350" alt="Hand drawn circuit diagram">
-            This diagram shows the three parts of my circuit: the 9V power source connected to
-            the Vin pin, the ultrasonic sensor, and the transistor-controlled buzzer. The specific
-            transistor used in this circuit has a maximum current of around 30A, which is much
-            higher than any possible current from the Arduino (measured in mA). In my circuit,
-            the transistor's role is more to control the buzzer instead of handing a significantly
-            higher load power.<br><br>
+            <img src="Circuit.jpg" width="350" alt="Photo of a breadboard circuit">
+            Picture of my circuit. The Arduino receives position data from the joystick and
+            utilizes that to light up the LEDs based on the stick's current direction. It also
+            sends the data to my computer and the webpage. Up to two LEDs can be lit at once,
+            based on the joystick directions. I did not use the joystick's SW pin, which is used
+            by the joystick button.<br><br>
+            <img src="Diagram.jpg" width="350" alt="Hand drawn circuit diagram">
+            This diagram represents the configuration of the LEDs and joystick. The red LEDs are
+            the same ones used in previous projects this quarter, and draw 5 V with an ideal maximum
+            current of around 20 mAh. For each of the LEDs, I used the following Ohm's law
+            calculation to find ideal resistances: <br>
+            5V - 1.8V / 20 mA = R = 160 Ω<br>
+            I chose 220 Ω resistors to get closest to this value.<br><br>
         </p>
         <p>
             <h2>Code:</h2>
-            Note: The A5 assignment description says to use analogWrite. I realized this
-            very late and was somewhat running out of time so I'm aware that it's something
-            missing from my submission.
+            This my code for the Arduino, using inputs from the joystick to control the LEDs and
+            the webpage objects:
             <pre><code> <!-- Note: indenting is offset to make code block look better -->
-    // Uses an ultrasonic sensor to measure distance and changes the pitch of an active buzzer when
-    // a distance of 10 inches or less is detected.
-    // Uses some code from the built-in Ping example.
-
-    const int buzzer = 9; // Identify buzzer pin
-    const int sensorPower = 10; // Identify sensor power pin
-    const int trig = 11; // Identify sensor "trig" pin
-    const int echo = 12; // Identify sensor "echo" pin
+    const int xPin = A1; // Identifies the X-axis pin
+    const int yPin = A0; // Identifies the Y-axis pin
+    const int ledL = 9; // Identifies the left LED pin
+    const int ledR = 8; // Identifies the right LED pin
+    const int ledUp = 7; // Identifies the upper LED pin
+    const int ledDn = 6; // Identifies the lower LED pin
+    int xVal = 0; // Creates a variable for the X-axis reading
+    int yVal = 0; // Creates a variable for the Y-axis reading  
+    int xMax = 517; // Initial maximum X-axis deadzone
+    int xMin = 513; // Initial minimum X-axis deadzone
+    int yMax = 517; // Initial maximum Y-axis deadzone
+    int yMin = 513; // Initial minimum Y-axis deadzone
 
     void setup() {
-        pinMode(buzzer, OUTPUT); // Set buzzer pin to output
-        pinMode(trig, OUTPUT); // Set trig pin to output (sending signals)
-        pinMode(echo, INPUT); // Set echo pin to input (receiving signals)
-        pinMode(sensorPower, OUTPUT); // Set sensor power pin to output
-        digitalWrite(sensorPower, HIGH); // Output power to ultrasonic sensor
-    }
-
-    void loop() {
-        long duration, inches; // Set up variables for measurements
-        digitalWrite(trig, LOW); // Reset the sensor ping
-        delay(5); // Wait 5 ms
-        digitalWrite(trig, HIGH); // Trigger the sensor to send a ping
-        delay(5); // Wait 5 ms
-        digitalWrite(trig, LOW); // Deactivate the sensor
-
-        duration = pulseIn(echo, HIGH); // Read the sensor output
-        inches = microsecondsToInches(duration); // Convert duration to distance
-
-        if (inches < 10L) { // If the measured distance is less than 10 ms
-            digitalWrite(buzzer, LOW); // Change the buzzer pitch
+        Serial.begin(9600); // Sets baud rate for serial usage
+        while (millis() < 5000) { // Starts calibration period to identify deadzones
+            xVal = analogRead(xPin); // Reads the value from the X-axis pin
+            yVal = analogRead(yPin); // Reads the value from the Y-axis pin
+            if (xVal > xMax) { // If current X-axis reading exceeds the max recorded value
+                xMax = xVal; // Sets the max value to the current value
+            }
+            if (xVal < xMin) { // If current X-axis reading exceeds the min recorded value
+                xMin = xVal; // Sets the min value to the current value
+            }
+            if (yVal > yMax) { // If current Y-axis reading exceeds the max recorded value
+                yMax = yVal; // Sets the max value to the current value
+            }
+            if (yVal < yMin) { // If current Y-axis reading exceeds the min recorded value
+                yMin = yVal; // Sets the min value to the current value
+            }
         }
-
-    delay(490); // Wait 490 ms
-    digitalWrite(buzzer, HIGH); // Reset the buzzer pitch
+        pinMode(ledL, OUTPUT); // Sets the left LED pin for output
+        pinMode(ledR, OUTPUT); // Sets the right LED pin for output
+        pinMode(ledUp, OUTPUT); // Sets the upper LED pin for output
+        pinMode(ledDn, OUTPUT); // Sets the lower LED pin for output
     }
 
-    // Converts the microsecond delay between the ultrasonic sensor's ping and the return echo to
-    // a distance in inches.
-    // Parameter: long microseconds: Duration from the initial sensor ping to the return echo
-    // Returns a long value for distance in inches
-    long microsecondsToInches(long duration) {
-        return duration / 74 / 2; // Convert the duration to distance
+    void loop() {   
+        xVal = analogRead(xPin); // Reads the value from the X-axis pin
+        yVal = analogRead(yPin); // Reads the value from the Y-axis pin
+        Serial.print(xVal); // Prints the Y-axis input
+        Serial.print(","); // Separates the values
+        Serial.println(yVal); // Prints the X-axis input
+        if (xVal > xMax) { // Stick pushed right
+            digitalWrite(ledR, HIGH); // Turns on right LED
+            digitalWrite(ledL, LOW); // Turns off left LED
+        } else if (xVal < xMin) { // Stick pushed left
+            digitalWrite(ledR, LOW); // Turns off right LED
+            digitalWrite(ledL, HIGH); // Turns on left LED
+        } else { // Stick in X-axis deadzone
+            digitalWrite(ledR, LOW); // Turns off right LED
+            digitalWrite(ledL, LOW); // Turns off left LED
+        }
+        if (yVal > yMax) { // Stick pushed down
+            digitalWrite(ledUp, LOW); // Turns off upper LED
+            digitalWrite(ledDn, HIGH); // Turns on lower LED
+        } else if (yVal < yMin) { // Stick pushed up
+            digitalWrite(ledUp, HIGH); // Turns on upper LED
+            digitalWrite(ledDn, LOW); // Turns off lower LED
+        } else { // Stick in Y-axis deadzone
+            digitalWrite(ledUp, LOW); // Turns off upper LED
+            digitalWrite(ledDn, LOW); // Turns off lower LED
+        }
+        delay(50);
     }
-            </code></pre>
-        </p><br>
-        <p>
-            <h2>Responses:</h2>
-            1. For the specific transistor, the absolute maximum current listed is 80A when
-            pulsed with a 1% duty cycle.
-        </p><br>
-        <p>
-            2. Schematic:<br>
-            <img src="q2diagram.jpg" width="350" alt="Circuit diagram for question 2"><br>
-            Parts:
-            <ul>
-                <li>Arduino Uno</li>
-                <li>28BYJ-48 motor</li>
-                <li>1N4007 diode</li>
-                <li>104pf capacitor</li>
-            </ul>
-        </p><br>
-        <p>
-            3. Schematic:<br>
-            <img src="q3diagram.jpg" width="350" alt="Circuit diagram for question 3"><br>
-            The Arduino controls the L293 chip's In1 and In2 pins. Here's example code for
-            moving the motors in different directions:
-            <pre><code> <!-- Note: indenting is offset to make code block look better -->
-    // Initialize pins:
-    Assign pins for In 1/2 L/R
+            </code></pre><br>
 
-    // Both motors stopped:
-    All pins off
-    Wait
-    
-    // Both motors forwards:
-    In1L/R on, In2L/R off
-    Wait
+            This is my p5.js code:
+            <pre><code>
+    // Uses data from the Arduino to control a square and circle on the screen, representing the
+    // joystick axis positions.
+    const BAUD_RATE = 9600; // Sets up baud rate for serial usage
+    let port, connectBtn, elementSize; // Declare global variables
 
-    // Both motors backwards:
-    In1L/R off, In2L/R on
-    Wait
+    // Sets up the canvas
+    function setup() {
+        setupSerial(); // Runs the serial setup function
+        createCanvas(windowWidth, windowHeight); // Creates a canvas sized to the browser window
+        textFont("system-ui", 50); // Sets the font (https://p5js.org/reference/)
+        textStyle(BOLD); // Sets the font style to bold
+        textAlign(CENTER, CENTER); // Sets text center alignment
+        blendMode(ADD); // Sets canvas blend mode (https://p5js.org/reference/#/p5/blendMode)
+    }
 
-    // Motors moving in different directions:
-    In1L on, In2L off
-    In1R off, In2R on
-    Wait
-    In1L off, In2L on
-    In1R on, In2R off
-    Wait
+    // Creates the visuals
+    function draw() {
+        const portIsOpen = checkPort(); // Check whether the port is open (see checkPort function below)
+        if (!portIsOpen) return; // If the port is not open, exit the draw loop
+        let str = port.readUntil("\n"); // Read from the port until the newline
+        if (str.length == 0) return; // If we didn't read anything, return.
+        let positionArray = str.trim().split(","); // Trim whitespace and split on commas
+        elementSize = min(windowWidth, windowHeight) * 0.3; // Limits size of the main element
 
-    // Stop both motors again:
-    All pins off
-    Wait
-            </code></pre>
-        </p><br>
-        <p>
-            4. I did not use any AI tools while completing this assignment.
-        </p><br>
+        clear(); // Clear the canvas
+        background(0); // Make the background black
+        translate(windowWidth / 2, windowHeight / 2); // Move the origin to the center
+
+        fill("cornflowerblue"); // Sets color for text/objects
+        text(`Joystick position: X${positionArray[0]}, Y${positionArray[1]}`, 0, elementSize + 50); // Text display
+
+        const xPos = round(map(Number(positionArray[0]), 0, 1023, elementSize * -1, elementSize)); // Maps X position
+        const yPos = round(map(Number(positionArray[1]), 0, 1023, elementSize * -1, elementSize)); // Maps Y position
+        circle(xPos, 0, elementSize / 4); // Draws X-axis circle
+        square(0 - elementSize / 8, yPos - elementSize / 8, elementSize / 4); // Draws Y-axis square
+    }
+
+    // Helper function to set up the serial
+    function setupSerial() {
+        port = createSerial(); // Sets up the port
+        let usedPorts = usedSerialPorts(); // Getting the used ports
+        if (usedPorts.length > 0) { // Checks if there are any used ports
+            port.open(usedPorts[0], BAUD_RATE); // Opens the first used port
+        }
+        connectBtn = createButton("Connect to Arduino"); // Creates a connect button
+        connectBtn.position(5, 5); // Positions the button in the top left of the screen
+        connectBtn.mouseClicked(onConnectButtonClicked); // On click, runs onConnectButtonClicked
+    }
+
+    // Changes the button appearance and returns a value based on the status of the port
+    function checkPort() {
+        if (!port.opened()) { // If the port is not opened
+            connectBtn.html("Connect to Arduino"); // Modifies the button text
+            background("gray"); // Sets the background color to gray
+            return false; // Returns false
+        } else { // If the port is opened
+            connectBtn.html("Disconnect"); // Modifies the button text
+            return true; // Returns true
+        }
+    }
+
+    // Toggles opening the port when the connect button is clicked
+    function onConnectButtonClicked() {
+        if (!port.opened()) { // If the port is not opened
+            port.open(BAUD_RATE); // Opens the port
+        } else { // If the port is opened
+            port.close(); // Closes the port
+        }
+    }
+            </code></pre><br>
+
         <a href="../index.html">
             Click to go back to homepage
         </a>

@@ -53,88 +53,92 @@
     // Controls four LEDs and sends signals to the connected computer through a serial port based on
     // the position of an attached joystick. Toggles the function of the LEDs if a computer key is
     // pressed (with webpage code).
-        const int xPin = A1; // Identifies the X-axis pin
-        const int yPin = A0; // Identifies the Y-axis pin
-        const int ledL = 9; // Identifies the left LED pin
-        const int ledR = 8; // Identifies the right LED pin
-        const int ledUp = 7; // Identifies the upper LED pin
-        const int ledDn = 6; // Identifies the lower LED pin
-        int xVal = 0; // Creates a variable for the X-axis reading
-        int yVal = 0; // Creates a variable for the Y-axis reading  
-        int xMax = 0; // Initial maximum X-axis deadzone (0-1023)
-        int xMin = 1023; // Initial minimum X-axis deadzone
-        int yMax = 0; // Initial maximum Y-axis deadzone
-        int yMin = 1023; // Initial minimum Y-axis deadzone
-        bool lights = true; // Creates a variable for the lights
+    const int xPin = A1; // Identifies the X-axis pin
+    const int yPin = A0; // Identifies the Y-axis pin
+    const int ledL = 9; // Identifies the left LED pin
+    const int ledR = 8; // Identifies the right LED pin
+    const int ledUp = 7; // Identifies the upper LED pin
+    const int ledDn = 6; // Identifies the lower LED pin
+    int xVal = 0; // Creates a variable for the X-axis reading
+    int yVal = 0; // Creates a variable for the Y-axis reading  
+    int xMax = 0; // Initial maximum X-axis value (0-1023)
+    int xMin = 1023; // Initial minimum X-axis value
+    int yMax = 0; // Initial maximum Y-axis value
+    int yMin = 1023; // Initial minimum Y-axis value
+    bool lights = true; // Creates a variable for the lights
 
-        void setup() {
-            Serial.begin(9600); // Sets baud rate for serial usage
-            while (millis() < 5000) { // Starts calibration period to identify deadzones
-                xVal = analogRead(xPin); // Reads the value from the X-axis pin
-                yVal = analogRead(yPin); // Reads the value from the Y-axis pin
-                if (xVal > xMax) { // If current X-axis reading exceeds the max recorded value
-                    xMax = xVal; // Sets the max value to the current value
-                }
-                if (xVal < xMin) { // If current X-axis reading exceeds the min recorded value
-                    xMin = xVal; // Sets the min value to the current value
-                }
-                if (yVal > yMax) { // If current Y-axis reading exceeds the max recorded value
-                    yMax = yVal; // Sets the max value to the current value
-                }
-                if (yVal < yMin) { // If current Y-axis reading exceeds the min recorded value
-                    yMin = yVal; // Sets the min value to the current value
-                }
+    void setup() {
+        Serial.begin(9600); // Sets baud rate for serial usage
+        while (millis() < 5000) { // Starts calibration period to set up deadzones
+            xVal = analogRead(xPin); // Reads the value from the X-axis pin
+            yVal = analogRead(yPin); // Reads the value from the Y-axis pin
+            if (xVal > xMax) { // If current X-axis reading exceeds the max recorded value
+                xMax = xVal; // Sets the max value to the current value
             }
-            pinMode(ledL, OUTPUT); // Sets the left LED pin for output
-            pinMode(ledR, OUTPUT); // Sets the right LED pin for output
-            pinMode(ledUp, OUTPUT); // Sets the upper LED pin for output
-            pinMode(ledDn, OUTPUT); // Sets the lower LED pin for output
+            if (xVal < xMin) { // If current X-axis reading exceeds the min recorded value
+                xMin = xVal; // Sets the min value to the current value
+            }
+            if (yVal > yMax) { // If current Y-axis reading exceeds the max recorded value
+                yMax = yVal; // Sets the max value to the current value
+            }
+            if (yVal < yMin) { // If current Y-axis reading exceeds the min recorded value
+                yMin = yVal; // Sets the min value to the current value
+            }
         }
+        xMax = xMax + 3; // Sets deadzone of 3 units
+        xMin = xMin - 3; // Sets deadzone of 3 units
+        yMax = yMax + 3; // Sets deadzone of 3 units
+        yMin = yMin - 3; // Sets deadzone of 3 units
+        pinMode(ledL, OUTPUT); // Sets the left LED pin for output
+        pinMode(ledR, OUTPUT); // Sets the right LED pin for output
+        pinMode(ledUp, OUTPUT); // Sets the upper LED pin for output
+        pinMode(ledDn, OUTPUT); // Sets the lower LED pin for output
+    }
 
-        void loop() {   
-            if (Serial.available() > 0) { // If there is serial output
-                int inByte = Serial.read(); // Reads from the port
-                if (inByte == 49) { // If "1" was received
-                    lights = false; // Sets lights to false
-                } else { // If lights is not true
-                    lights = true; // Sets lights to true
-                }
-            }
-            if (lights) { // If lights is true
-                xVal = analogRead(xPin); // Reads the value from the X-axis pin
-                yVal = analogRead(yPin); // Reads the value from the Y-axis pin
-                Serial.print(xVal); // Prints the Y-axis input
-                Serial.print(","); // Separates the values
-                Serial.println(yVal); // Prints the X-axis input
-                if (xVal > xMax) { // Stick pushed right
-                    digitalWrite(ledR, HIGH); // Turns on right LED
-                    digitalWrite(ledL, LOW); // Turns off left LED
-                } else if (xVal < xMin) { // Stick pushed left
-                    digitalWrite(ledR, LOW); // Turns off right LED
-                    digitalWrite(ledL, HIGH); // Turns on left LED
-                } else { // Stick in X-axis deadzone
-                    digitalWrite(ledR, LOW); // Turns off right LED
-                    digitalWrite(ledL, LOW); // Turns off left LED
-                }
-                if (yVal > yMax) { // Stick pushed down
-                    digitalWrite(ledUp, LOW); // Turns off upper LED
-                    digitalWrite(ledDn, HIGH); // Turns on lower LED
-                } else if (yVal < yMin) { // Stick pushed up
-                    digitalWrite(ledUp, HIGH); // Turns on upper LED
-                    digitalWrite(ledDn, LOW); // Turns off lower LED
-                } else { // Stick in Y-axis deadzone
-                    digitalWrite(ledUp, LOW); // Turns off upper LED
-                    digitalWrite(ledDn, LOW); // Turns off lower LED
-                }
-                delay(50); // Wait 50 ms
+    void loop() {   
+        if (Serial.available() > 0) { // If there is serial output
+            int inByte = Serial.read(); // Reads from the port
+            if (inByte == 49) { // If "1" was received
+                lights = false; // Sets lights to false
             } else { // If lights is not true
-                    digitalWrite(ledR, LOW); // Turns off right LED
-                    digitalWrite(ledL, LOW); // Turns off left LED 
-                    digitalWrite(ledUp, LOW); // Turns off upper LED
-                    digitalWrite(ledDn, LOW); // Turns off lower LED
-                    return; // Returns
+                lights = true; // Sets lights to true
             }
         }
+        if (lights) { // If lights is true
+            xVal = analogRead(xPin); // Reads the value from the X-axis pin
+            yVal = analogRead(yPin); // Reads the value from the Y-axis pin
+            Serial.print(xVal); // Prints the Y-axis input
+            Serial.print(","); // Separates the values
+            Serial.println(yVal); // Prints the X-axis input
+            if (xVal > xMax) { // Stick pushed right
+                digitalWrite(ledR, HIGH); // Turns on right LED
+                digitalWrite(ledL, LOW); // Turns off left LED
+            } else if (xVal < xMin) { // Stick pushed left
+                digitalWrite(ledR, LOW); // Turns off right LED
+                digitalWrite(ledL, HIGH); // Turns on left LED
+            } else { // Stick in X-axis deadzone
+                digitalWrite(ledR, LOW); // Turns off right LED
+                digitalWrite(ledL, LOW); // Turns off left LED
+            }
+            if (yVal > yMax) { // Stick pushed down
+                digitalWrite(ledUp, LOW); // Turns off upper LED
+                digitalWrite(ledDn, HIGH); // Turns on lower LED
+            } else if (yVal < yMin) { // Stick pushed up
+                digitalWrite(ledUp, HIGH); // Turns on upper LED
+                digitalWrite(ledDn, LOW); // Turns off lower LED
+            } else { // Stick in Y-axis deadzone
+                digitalWrite(ledUp, LOW); // Turns off upper LED
+                digitalWrite(ledDn, LOW); // Turns off lower LED
+            }
+            delay(50); // Wait 50 ms
+        } else { // If lights is not true
+                digitalWrite(ledR, LOW); // Turns off right LED
+                digitalWrite(ledL, LOW); // Turns off left LED 
+                digitalWrite(ledUp, LOW); // Turns off upper LED
+                digitalWrite(ledDn, LOW); // Turns off lower LED
+                return; // Returns
+        }
+    }
             </code></pre><br>
 
             This is my p5.js code, which draws the actual objects on the webpage based on the

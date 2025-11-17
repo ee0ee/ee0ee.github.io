@@ -61,10 +61,10 @@
         const int ledDn = 6; // Identifies the lower LED pin
         int xVal = 0; // Creates a variable for the X-axis reading
         int yVal = 0; // Creates a variable for the Y-axis reading  
-        int xMax = 517; // Initial maximum X-axis deadzone
-        int xMin = 513; // Initial minimum X-axis deadzone
-        int yMax = 517; // Initial maximum Y-axis deadzone
-        int yMin = 513; // Initial minimum Y-axis deadzone
+        int xMax = 0; // Initial maximum X-axis deadzone (0-1023)
+        int xMin = 1023; // Initial minimum X-axis deadzone
+        int yMax = 0; // Initial maximum Y-axis deadzone
+        int yMin = 1023; // Initial minimum Y-axis deadzone
         bool lights = true; // Creates a variable for the lights
 
         void setup() {

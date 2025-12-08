@@ -21,13 +21,16 @@
             For my final project in HCDE 439, I designed and built an alarm device called Doorbell.
             This device is designed to recognize movement by using an ultrasonic sensor which can
             detect changes in distance, and then triggers a toggleable alarm and light response.
-            The alerts can be toggled by pressing the "M" key on the connected computer.
+            The alerts can be toggled by pressing the "M" key on the connected computer. I started
+            this project as a basic alarm device, and realized that it could theoretically be used
+            for various applications that need me to be aware of motion or changing distances.
         </p><br>
         <p>
             <a href="https://drive.google.com/file/d/1TZ3jcLNbaPs0OdYs6UkYlGEIdx7Bgvf_/view?usp=sharing">
                 Project video demo
             </a>
         </p><br>
+
         <p>
             <h2>Implementation:</h2>
             <h3>Circuitry:</h3>
@@ -47,19 +50,35 @@
             </div>
             Photos of the actual device internals. I used the small breadboard to hold up the
             ultrasonic sensor and had the LEDs/buzzer attached to the large breadboard. To connect
-            the device to my computer, I used a 10-foot cable.<br><br>
+            the device to my computer, I used a 10-foot cable after I realized that I wanted to be
+            able to place it further from me or the computer.<br><br>
         </p>
         <p>
-            <h3>Design:</h3>
+            <h3>Container design:</h3>
+            <div style = "display: flex">
+                <img src="3d1.png" width="400" alt="3D model of the container from the front">
+                <img src="3d2.png" width="400" alt="3D model of the container from the back">
+            </div>
+            I used SolidWorks to design the outer container for my device, and 3D printed it from
+            PLA filament. It has holes for the ultrasonic sensor and the LEDs as well as an open
+            back for inserting the components. There is also a small step inside the container for
+            the ultrasonic sensor to be placed on, so that there's some elevation from the floor. 
+            The overall footprint of the device is 4.5 in by 2 in by 6.5 in.
             <img src="box.jpg" width="350" alt="3D-printed, rectangular device container">
-        </p>
+            This is what the printed device looks like with the components inside.
+        </p><br>
         <p>
             <h3>Code:</h3>
             <p>
                 Most of the functionality for my device was implemented in code on the Arduino,
                 which is responsible for controlling the sensor and LEDs. I added computer control
-                as a way to control the alarm function.
-            </p>
+                as a way to control the alarm function. When the device is first set up, it enters
+                a short calibration period where it saves the nearest detected distance and uses
+                that as the reference "alarm distance". Afterwards, if anything comes closer than
+                the alarm distance, the device will trigger its buzzer and LEDs. At the same time,
+                if the mute key on the keyboard is pressed, that will toggle the functioning of the
+                LEDs and buzzer altogether.
+            </p><br>
             Arduino code:
             <pre><code> <!-- Note: indenting is offset to make code block look better -->
     const int xPin = A1; // Identifies the X-axis pin
@@ -220,6 +239,19 @@
     }
             </code></pre><br>
 
+            <p>
+                <h3>Closing thoughts:</h3>
+                Looking ahead to the future, I identified a few areas where I felt there was room
+                for improvement or flaws that needed fixing. While I'm happy with how the
+                functionality turned out, something that I'm interested in changing is fully
+                removing the need for a computer. For power, this would mean adding a battery or
+                a separate power cable. Adding an actual mute button would also be needed, since
+                I wouldn't have access to a keyboard. Additionally, I'd like to continue iterating
+                on the design of the container. For instance, I found that in the 3D-printed
+                version there wasn't much need for a cable notch and some of the parts were more
+                cramped that I expected them to be. I hope to use this device practically around
+                my house soon.<br><br>
+            </p>
         <a href="../index.html">
             Click to go back to homepage
         </a>
